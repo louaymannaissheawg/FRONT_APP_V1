@@ -1,11 +1,5 @@
 /* Ensure sidenav container takes full height */
 
-
-.sidenav-container {
-  height: 100vh; /* Adjust if necessary */
-
-}
-
 /* Ensure sidenav width and styling */
 .sidenav {
   width: 20vh; /* Adjust width as needed */
@@ -23,7 +17,6 @@
 
 /* Stick toolbar to the top */
 .mat-toolbar.mat-primary {
-
   top: 0;
   z-index: 1000; /* Ensure toolbar is above other elements */
 }
@@ -44,19 +37,18 @@
   padding: 8px 16px;
   color: black; /* Example: Set link color */
 }
-.menu-text{
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.menu-text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px; /* Adjust as needed */
   font-weight: bold; /* Adjust font weight if necessary */
   line-height: 1.2; /* Adjust line height for readability */
-
 }
-h1, h2 {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 28px; /* Adjust as needed */
-  font-weight: bold; /* Adjust font weight if necessary */
-  line-height: 1.2; /* Adjust line height for readability */
-  /* Additional styles like color, margin, etc. can be added */
+h1,
+h2 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.2;
 }
 .header-container {
   display: flex;
@@ -71,9 +63,5 @@ h1, h2 {
 .icon-text {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.icon-text svg {
-  margin-right: 5px;
+  gap: 10px;
 }

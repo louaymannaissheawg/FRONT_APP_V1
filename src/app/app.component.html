@@ -1,5 +1,1 @@
-<ng-container *ngIf="!isConnectWalletPage">
-  <app-nav></app-nav>
-</ng-container>
-<div *ngIf="isConnectWalletPage" ><app-connectwallet></app-connectwallet></div>
-
+<app-nav *ngIf="walletId"></app-nav> <router-outlet></router-outlet>

@@ -4,7 +4,7 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(90deg, #18a99a, #18a99a);
+  background: linear-gradient(90deg, #18a99a, #ede9e9);
 }
 
 .content {
@@ -21,7 +21,7 @@ h1 {
 }
 
 .connect-button {
-  background-color: #C6893F;
+  background-color: #c6893f;
   color: black;
   width: 20vh;
   padding: 16px;
@@ -30,7 +30,6 @@ h1 {
 }
 
 .wallet-info {
-  background: linear-gradient(90deg, #18a99a, #18a99a);
   padding: 2em;
   border-radius: 16px;
   margin-top: 16px;
@@ -56,7 +55,7 @@ h1 {
   width: 13.33333px;
   height: 13.33333px;
   border-radius: 50%;
-  background: #C6893F;
+  background: #c6893f;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
@@ -104,7 +103,7 @@ h1 {
   /* change code below */
   --penguin-skin: black;
   --penguin-belly: white;
-  --penguin-beak: #C6893F;
+  --penguin-beak: #c6893f;
   /* change code above */
 
   position: relative;

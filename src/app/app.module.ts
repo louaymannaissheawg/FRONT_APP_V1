@@ -24,6 +24,7 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import {EtheruimService} from "./service/etheruim.service";
 import { TokenIntegrationComponent } from './token-integration/token-integration.component';
 import {ToastrModule, ToastrService} from "ngx-toastr";
+import { SideMenuComponent } from './side-menu/side-menu.component';
 const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 3,
@@ -51,7 +52,8 @@ const dbConfig: DBConfig = {
     NotauthComponent,
     AdviserComponent,
     AboutusComponent,
-    TokenIntegrationComponent
+    TokenIntegrationComponent,
+    SideMenuComponent
   ],
     imports: [
         MaterialModule,

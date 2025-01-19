@@ -1,44 +1,47 @@
-import {Component, OnInit} from '@angular/core';
-import { EtheruimService } from '../service/etheruim.service';
+import { Component, OnInit } from "@angular/core";
+import { EtheruimService } from "../service/etheruim.service";
 
 @Component({
-  selector: 'app-token-integration',
-  templateUrl: './token-integration.component.html',
-  styleUrls: ['./token-integration.component.css']
+  selector: "app-token-integration",
+  templateUrl: "./token-integration.component.html",
+  styleUrls: ["./token-integration.component.css"],
 })
-export class TokenIntegrationComponent implements OnInit{
-  branchAddress = '';
-  points = '';
-  reward = '';
+export class TokenIntegrationComponent implements OnInit {
+  branchAddress = "";
+  points = "";
+  reward = "";
   balance: string = "";
-  ngOnInit() {this.handleGetBalance()
+  ngOnInit() {
+    //   this.handleGetBalance();
   }
 
   constructor(private ethereumService: EtheruimService) {}
 
-  async handleReward() {
+  async handleReward(branchAddress: string) {
     try {
-      await this.ethereumService.rewardBranch(this.branchAddress);
-      alert('Branch rewarded successfully');
+      const cal = await this.ethereumService.rewardBranch(branchAddress);
+      console.error("____________________transaction", cal);
     } catch (error) {
-      console.error('Error rewarding branch:', error);
+      console.error("Error rewarding branch:", error);
     }
   }
 
   async handleConvert() {
     try {
       await this.ethereumService.convertToPoints(1);
-      alert('Token converted to points successfully');
+      alert("Token converted to points successfully");
     } catch (error) {
-      console.error('Error converting token to points:', error);
+      console.error("Error converting token to points:", error);
     }
   }
   async loadBalance() {
     try {
-      this.balance = await this.ethereumService.getPointsBalance(this.branchAddress);
+      this.balance = await this.ethereumService.getPointsBalance(
+        this.branchAddress
+      );
       console.log("Points balance retrieved:", this.balance);
     } catch (error) {
-      console.error('Error loading points balance:', error);
+      console.error("Error loading points balance:", error);
     }
   }
 
@@ -46,13 +49,14 @@ export class TokenIntegrationComponent implements OnInit{
     this.loadBalance();
   }
 
-
   async handleGetBalanceaaaaaa() {
     try {
-      this.balance = await this.ethereumService.getPointsBalance(this.branchAddress);
+      this.balance = await this.ethereumService.getPointsBalance(
+        this.branchAddress
+      );
       console.log("Points balance retrieved:", this.balance);
     } catch (error) {
-      console.error('Error getting points balance:', error);
+      console.error("Error getting points balance:", error);
     }
   }
 }

@@ -1,6 +1,6 @@
 :host {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-  Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
   color: black; /* Change default text color to black */
   box-sizing: border-box;
@@ -8,7 +8,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 8px 0;
   color: black; /* Ensure headings are also black */
 }
@@ -91,15 +96,14 @@ svg.material-icons:not(:last-child) {
   background-color: #fafafa;
   height: 40px;
   width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
-  color: black; /* Ensure card text color */
+  color: black;
 }
 
 .icon-text-gap {
@@ -268,7 +272,6 @@ svg#clouds {
   width: 1920px;
 }
 
-/* Responsive Styles */
 @media screen and (max-width: 767px) {
   .card-container > *:not(.circle-link),
   .terminal {
@@ -297,17 +300,15 @@ svg#clouds {
   }
 }
 
-/* Ensure sidenav container takes full height */
 .sidenav-container {
-  height: 100vh; /* Adjust if necessary */
+  height: 100vh;
 }
 
-/* Ensure sidenav width and styling */
 .sidenav {
-  width: 20vh; /* Adjust width as needed */
+  width: 20vh;
   background-color: #18a99a;
-  border-top-right-radius: 15px; /* Adjust the radius as needed */
-  border-bottom-right-radius: 15px; /* Adjust the radius as needed */
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
   top: 0;
   left: 0;
   overflow: hidden;
@@ -315,28 +316,23 @@ svg#clouds {
 
 .sidenav mat-toolbar {
   background-color: #18a99a;
-  color: black; /* Optionally set text color to black for contrast */
+  color: black;
 }
 
-/* Stick toolbar to the top */
 .mat-toolbar.mat-primary {
   top: 0;
-  z-index: 1000; /* Ensure toolbar is above other elements */
+  z-index: 1000;
 }
 
-/* Ensure floating elements are positioned correctly */
 .floating-elements {
-  margin-left: auto; /* Pushes floating elements to the right */
+  margin-left: auto;
   display: flex;
   align-items: center;
-  position: fixed; /* Position relative to the toolbar */
-  right: 20px; /* Adjust right spacing as needed */
+  position: fixed;
+  right: 20px;
   z-index: 10001;
 }
 
-/* Adjust link styles as needed */
 .floating-elements a {
-  margin-left: 10px; /* Adjust spacing between links */
-  padding: 8px 16px;
-  color : black;
+  color: black;
 }

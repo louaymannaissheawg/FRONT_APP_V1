@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { create, IPFSHTTPClient } from 'ipfs-http-client';
-import * as IPFS_ROOT_TYPES from 'ipfs-core-types/src/root';
-import { BehaviorSubject } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Injectable } from "@angular/core";
+import { create, IPFSHTTPClient } from "ipfs-http-client";
+import * as IPFS_ROOT_TYPES from "ipfs-core-types/src/root";
+import { BehaviorSubject } from "rxjs";
+import { NgxIndexedDBService } from "ngx-indexed-db";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class IpfsService {
   private _ipfsSource = new BehaviorSubject<null | IPFSHTTPClient>(null);
@@ -18,12 +18,12 @@ export class IpfsService {
 
   private async initializeIPFSNode(): Promise<IPFSHTTPClient> {
     try {
-      const node = create({ url: 'http://127.0.0.1:5001' });
-      console.log('Connected to local IPFS node successfully');
+      const node = create({ url: "http://127.0.0.1:8080" });
+      console.log("Connected to local IPFS node successfully");
       this._ipfsSource.next(node);
       return node;
     } catch (error) {
-      console.error('Failed to connect to local IPFS node:', error);
+      console.error("Failed to connect to local IPFS node:", error);
       throw error;
     }
   }
@@ -37,7 +37,7 @@ export class IpfsService {
         node = await this._createIPFSNodePromise;
         this._ipfsSource.next(node);
       } catch (error) {
-        console.error('Failed to connect to IPFS node:', error);
+        console.error("Failed to connect to IPFS node:", error);
         throw error;
       }
     }
@@ -82,20 +82,21 @@ export class IpfsService {
       }
     } catch (error) {
       // Type guard to ensure error is an instance of Error
-      if (error instanceof Error && error.message.includes('file does not exist')) {
-        console.log("not")
+      if (
+        error instanceof Error &&
+        error.message.includes("file does not exist")
+      ) {
+        console.log("not");
         return false;
       }
       throw error;
     }
     return false;
   }
-  async loadDataFromIpfsToDb(path : string) {
+  async loadDataFromIpfsToDb(path: string) {
     try {
-
       // Fetch the file content from IPFS
       const fileContent = await this.getFile(path);
-
 
       // Assuming the file content is in JSON format
       const items = JSON.parse(fileContent);
@@ -105,27 +106,29 @@ export class IpfsService {
         await this.adddb(item);
       }
 
-      console.log('Data successfully loaded from IPFS to the database.');
+      console.log("Data successfully loaded from IPFS to the database.");
     } catch (error) {
-      console.error('Error loading data from IPFS:', error);
+      console.error("Error loading data from IPFS:", error);
     }
   }
 
   async adddb(item: any): Promise<void> {
     try {
       let date = new Date(item.date);
-      await this.dbService.add('consumption', {
-        date: date,
-        total: item.total,
-        consumptionPerHour: item.consumptionPerHour
-      });
-      console.log('Item added to database successfully.');
+      const val = this.dbService
+        .add("consumption", {
+          date: date,
+          total: item.total,
+          consumptionPerHour: item.consumptionPerHour,
+        })
+        .subscribe((res) => console.log("________________val", res));
+      console.error("________________val ", val);
+      console.log("Item added to database successfully.");
     } catch (error) {
-      console.error('Error adding item to database:', error);
+      console.error("Error adding item to database:", error);
       throw error; // Rethrow the error to handle it upstream if necessary
     }
   }
-
 
   async addFile(path: string, content: string, id: string): Promise<void> {
     const node = await this.getIpfsInstance();
@@ -135,33 +138,34 @@ export class IpfsService {
 
       const directoryPath = `/${id}`;
       const filePath = `${directoryPath}/${path}`;
-      console.log(filePath)
+      console.log(filePath);
 
-      console.log(`Adding file to IPFS. Directory path: ${directoryPath}, File path: ${filePath}, CID: ${cid}`);
+      console.log(
+        `Adding file to IPFS. Directory path: ${directoryPath}, File path: ${filePath}, CID: ${cid}`
+      );
 
       await this.createDirectory(directoryPath);
       const parsedContent = JSON.parse(content);
-      exist = await this.fileExists(id, path)
+      exist = await this.fileExists(id, path);
 
       try {
         if (exist === false) {
           await node.files.cp(`/ipfs/${cid}`, filePath);
           console.log(`File copied to ${filePath}`);
           for (let item of parsedContent) {
-            console.log("aaaaaaaaaaaaaaaa" + item.date)
-            await this.adddb( item)
+            console.log("aaaaaaaaaaaaaaaa" + item.date);
+            await this.adddb(item);
           }
         } else if (exist === true) {
           for (let item of parsedContent) {
-            console.log("aaaaaaaaaaaaaaaa" + item.date)
-            await this.adddb( item)
+            console.log("aaaaaaaaaaaaaaaa" + item.date);
+            await this.adddb(item);
           }
         }
       } catch (error) {
         console.error(`Failed to copy file to ${filePath}:`, error);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error(`Failed to copy file to :`, error);
     }
   }
@@ -172,12 +176,18 @@ export class IpfsService {
     const chunks: Uint8Array[] = [];
 
     try {
-      const response = await fetch(`http://127.0.0.1:5001/api/v0/files/read?arg=${encodeURIComponent(path)}`, {
-        method: 'POST'
-      });
+      console.error("__________________ipfs", encodeURIComponent(path));
+      const response = await fetch(
+        `http://127.0.0.1:5001/api/v0/files/read?arg=${encodeURIComponent(
+          path
+        )}`,
+        {
+          method: "POST",
+        }
+      );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response}`);
       }
 
       const reader = response.body?.getReader();
@@ -206,34 +216,40 @@ export class IpfsService {
     }
   }
 
-
   async getFilesByDateRange(startDate: Date, endDate: Date): Promise<any[]> {
-
     return new Promise((resolve, reject) => {
-      this.dbService.getAllByIndex('consumption', 'date', IDBKeyRange.bound(startDate, endDate)).subscribe({
+      this.dbService.getAll("consumption").subscribe({
         next: (data) => {
-          console.log(`Files fetched by date range ${startDate} - ${endDate}:`, data);
+          console.log(
+            `Files fetched by date range ${startDate} - ${endDate}:`,
+            data
+          );
           resolve(data);
         },
-        error: (error) => reject(error)
+        error: (error) => reject(error),
       });
     });
   }
 
   async getalldata() {
-    this.dbService.getAll('consumption').subscribe({
+    this.dbService.getAll("consumption").subscribe({
       next: (data) => {
-        console.log(data)
-      }, error: (error) => console.log('failed')
-    })
+        console.log(data);
+      },
+      error: (error) => console.log("failed"),
+    });
   }
 
-  async fetchDataByIdAndDateRange(id: string, startDate: Date, endDate: Date): Promise<any[]> {
+  async fetchDataByIdAndDateRange(
+    id: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<any[]> {
     const files = await this.getFilesByDateRange(startDate, endDate);
-    console.log('Files retrieved from date range:', files);
+    console.log("Files retrieved from date range:", files);
 
-    const filteredFiles = files.filter(file => file.id === id);
-    console.log('Filtered files by ID:', filteredFiles);
+    const filteredFiles = files.filter((file) => file.id === id);
+    console.log("Filtered files by ID:", filteredFiles);
 
     const dataPromises = filteredFiles.map(async (file) => {
       const content = await this.getFile(file.path);
@@ -245,7 +261,7 @@ export class IpfsService {
     });
 
     const data = await Promise.all(dataPromises);
-    console.log('Data fetched by ID and date range:', data);
+    console.log("Data fetched by ID and date range:", data);
 
     // Flatten the array if needed
     return data.flat();
