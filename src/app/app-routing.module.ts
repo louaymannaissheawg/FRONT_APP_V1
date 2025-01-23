@@ -6,17 +6,21 @@ import { AboutusComponent } from "./aboutus/aboutus.component";
 import { ConnectwalletComponent } from "./connectwallet/connectwallet.component";
 import { walletGuard } from "./guard/wallet.guard";
 import { TokenIntegrationComponent } from "./token-integration/token-integration.component";
+import { HomePageComponent } from "./home-page/home-page.component";
 
 const routes: Routes = [
-  { path: "dashboard", component: DashviewComponent },
-  { path: "adviser", component: AdviserComponent },
+  {
+    path: "dashboard",
+    component: DashviewComponent,
+    canActivate: [walletGuard],
+  },
+  { path: "adviser", component: AdviserComponent, canActivate: [walletGuard] },
   { path: "aboutus", component: AboutusComponent },
   { path: "balance", component: TokenIntegrationComponent },
   { path: "connect-wallet", component: ConnectwalletComponent },
-  { path: "", redirectTo: "/connect-wallet", pathMatch: "full" },
-  { path: "**", redirectTo: "/connect-wallet" },
+  { path: "", component: HomePageComponent },
+  { path: "**", redirectTo: "" },
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

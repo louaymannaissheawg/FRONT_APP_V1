@@ -4,7 +4,6 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(90deg, #18a99a, #ede9e9);
 }
 
 .content {
@@ -17,7 +16,6 @@
 h1 {
   font-size: 3em;
   font-weight: bold;
-  color: white;
 }
 
 .connect-button {
@@ -36,7 +34,7 @@ h1 {
 }
 
 .wallet-info label {
-  color: white;
+  color: black;
 }
 
 .lds-ellipsis,

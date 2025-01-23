@@ -1,107 +1,108 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
+    <div
+      class="logo-container d-flex align-content-center justify-content-center"
+    >
+      <img src="assets/PINGUI-LOGO.png" alt="" width="70" height="70" />
+      <span class="h2" style="margin-top: 15px">
+        PEN <span style="color: #41aa40">GUI</span>
+      </span>
+    </div>
     <mat-toolbar>
       <div class="floating-elements">
         <div class="header-container">
-          <h2 class="custom-header">
-            <a mat-button routerLink="/dashboard" routerLinkActive="active">
-              <div class="icon-text">
-                <!-- SVG for Dashboard Icon -->
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-align-box-bottom-right"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="#000000"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-                  />
-                  <path d="M11 15v2" />
-                  <path d="M14 11v6" />
-                  <path d="M17 13v4" />
-                </svg>
-                <span class="icon-text-gap">Dashboard</span>
-              </div>
-            </a>
-            <a mat-button routerLink="/adviser" routerLinkActive="active">
-              <div class="icon-text">
-                <!-- SVG for Adviser Icon -->
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-activity"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="#000000"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M3 12h4l3 8l4 -16l3 8h4" />
-                </svg>
-
-                <span class="icon-text-gap">Adviser</span>
-              </div>
-            </a>
-            <a mat-button routerLink="/aboutus" routerLinkActive="active">
-              <div class="icon-text">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-article"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="#000000"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-                  />
-                  <path d="M7 8h10" />
-                  <path d="M7 12h10" />
-                  <path d="M7 16h10" />
-                </svg>
-
-                <span class="icon-text-gap">About Us</span>
-              </div>
-            </a>
-
-            <a mat-button (click)="disconnect()">
-              <div class="icon-text">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-user"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="#000000"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                </svg>
-                <span class="icon-text-gap">Disconnect</span>
-              </div>
-            </a>
-          </h2>
+          <!-- Display 'Connect Now' if walletId is not available -->
+          <ng-container *ngIf="!walletId; else walletButtons">
+            <button
+              class="btn btn-outline-success"
+              style="margin-right: 100px"
+              (click)="connectWallet()"
+            >
+              Get Started Now
+            </button>
+          </ng-container>
+          <!-- Show all buttons if walletId exists -->
+          <ng-template #walletButtons>
+            <h2 class="custom-header">
+              <a mat-button routerLink="/dashboard" routerLinkActive="active">
+                <div class="icon-text">
+                  <!-- SVG for Dashboard Icon -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-align-box-bottom-right"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#000000"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+                    />
+                    <path d="M11 15v2" />
+                    <path d="M14 11v6" />
+                    <path d="M17 13v4" />
+                  </svg>
+                  <span class="icon-text-gap">Dashboard</span>
+                </div>
+              </a>
+              <a mat-button routerLink="/adviser" routerLinkActive="active">
+                <div class="icon-text">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-activity"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#000000"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 12h4l3 8l4 -16l3 8h4" />
+                  </svg>
+                  <span class="icon-text-gap">Adviser</span>
+                </div>
+              </a>
+              <a mat-button routerLink="/aboutus" routerLinkActive="active">
+                <div class="icon-text">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-article"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#000000"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+                    />
+                    <path d="M7 8h10" />
+                    <path d="M7 12h10" />
+                    <path d="M7 16h10" />
+                  </svg>
+                  <span class="icon-text-gap">About Us</span>
+                </div>
+              </a>
+              <a mat-button (click)="disconnect()">
+                <div class="icon-text">
+                  <img src="assets/svg/logout_icon.svg" />
+                  <span class="icon-text-gap">Log out </span>
+                </div>
+              </a>
+            </h2>
+          </ng-template>
         </div>
       </div>
     </mat-toolbar>

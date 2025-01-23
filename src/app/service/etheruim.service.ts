@@ -36,7 +36,11 @@ export class EtheruimService {
       if (!this.contract || !this.signer) {
         await this.initialize(); // Ensure signer and contract are initialized
       }
-      await this.contract!.rewardBranch(branch); // Use optional chaining and force unwrap
+      console.log("Rewarding branch:", branch);
+      const tx = await this.contract!.rewardBranch(branch); // Send transaction
+      console.log("_____________________Transaction sent:", tx.hash);
+      const receipt = await tx.wait();
+      console.log("_____________Transaction confirmed:", receipt);
     } catch (error) {
       console.error("Error rewarding branch:", error);
     }

@@ -1,11 +1,12 @@
-
 <div class="card">
   <div class="upper-half">
     <div class="title">{{ title }}</div>
   </div>
-  <div class="lower-half">
-
+  <div class="lower-half" *ngIf="unit === '%'; else seperateUnit">
+    <span class="value">{{ value }}{{ unit }}</span>
+  </div>
+  <ng-template #seperateUnit>
     <div class="value">{{ value }}</div>
     <div class="unit">{{ unit }}</div>
-  </div>
+  </ng-template>
 </div>

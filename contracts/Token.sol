@@ -21,7 +21,6 @@ contract EfficiencyToken is ERC20 {
         _transfer(address(this), branch, _rewardAmount);
         emit TokensRewarded(branch, _rewardAmount);
     }
-
     function convertToPoints(uint256 tokenAmount) public {
         require(balanceOf(msg.sender) >= tokenAmount, "Insufficient token balance");
         _burn(msg.sender, tokenAmount);

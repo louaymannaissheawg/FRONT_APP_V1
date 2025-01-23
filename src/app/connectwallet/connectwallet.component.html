@@ -1,19 +1,22 @@
 <div class="container">
   <div class="content">
     <div *ngIf="!walletConnected && !connectingstat && !showPenguin">
-      <h1>Connect Wallet</h1>
+      <h1>Connect To Your Meta Mast Wallet</h1>
+      <p>Manage and view your earning throw your digital wallet</p>
       <button
         *ngIf="!walletConnected"
-        mat-raised-button
-        class="connect-button"
+        class="btn btn-success"
         (click)="connectToWallet()"
       >
-        Connect Wallet
+        Connect
       </button>
     </div>
 
     <div *ngIf="connectingstat && !walletConnected" class="lds-ellipsis">
-      <div></div><div></div><div></div><div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
 
     <div *ngIf="showPenguin" class="penguin">

@@ -1,16 +1,21 @@
 <!-- adviser.component.html -->
-<div class="advice-container" fxLayout="column" fxLayoutAlign="center center">
+<div
+  class="advice-container"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  style="padding: 100px 50px 50px 50px"
+>
   <mat-card>
     <mat-card-header>
       <div fxLayout="row" fxLayoutAlign="start center">
-
         <mat-card-title class="icon-text">Wise Penguin</mat-card-title>
       </div>
     </mat-card-header>
     <mat-card-content>
       <ul class="advice-list">
         <li *ngFor="let adviceItem of advice" class="advice-item">
-          {{ adviceItem.message }} <span class="timestamp">{{ adviceItem.timestamp }}</span>
+          {{ adviceItem.message }}
+          <span class="timestamp">{{ adviceItem.timestamp }}</span>
         </li>
       </ul>
     </mat-card-content>

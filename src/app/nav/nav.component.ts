@@ -29,6 +29,9 @@ export class NavComponent {
 
   disconnect() {
     this.localStorageService.clear();
+    window.open("http://localhost:4200", "_self");
+  }
+  connectWallet() {
     this.router.navigate(["/connect-wallet"]);
   }
 }

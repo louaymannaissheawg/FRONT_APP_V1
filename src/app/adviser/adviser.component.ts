@@ -1,6 +1,6 @@
 // adviser.component.ts
 import { Component, OnInit } from "@angular/core";
-import { IpfsService } from "../ipfs.service";
+import { IpfsService } from "../service/ipfs.service";
 
 interface AdviceMessage {
   message: string;

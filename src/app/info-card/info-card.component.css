@@ -3,11 +3,12 @@
   border-radius: 0;
   padding: 15px;
   width: 200px;
+  height: 120px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 10px;
-  height: 10vh;
-  overflow: hidden
+
+  overflow: hidden;
 }
 
 .upper-half {
@@ -38,10 +39,3 @@
   font-size: 12px;
   color: #888;
 }
-
-
-
-
-
-
-

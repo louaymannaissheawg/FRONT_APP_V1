@@ -51,7 +51,7 @@ export class ConnectwalletComponent implements OnInit, OnDestroy {
     this.connectingstat = false;
     this.showPenguin = true;
     setTimeout(() => {
-      this.router.navigate(["/dashboard"]);
+      window.open("http://localhost:4200/dashboard", "_self");
     }, 1000); // Delay of 1 second before navigating
   };
 

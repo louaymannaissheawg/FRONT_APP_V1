@@ -5,7 +5,7 @@ import { filter } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map, shareReplay } from "rxjs/operators";
-import { IpfsService } from "./ipfs.service";
+import { IpfsService } from "./service/ipfs.service";
 import { LocalStorageService } from "./service/localStorage.service";
 
 @Component({

@@ -1,15 +1,19 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Chart, registerables } from 'chart.js';
-import { isPlatformBrowser } from '@angular/common';
-import { IpfsService } from '../ipfs.service';
+import { Component, Inject, OnInit, PLATFORM_ID } from "@angular/core";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { Chart, registerables } from "chart.js";
+import { isPlatformBrowser } from "@angular/common";
+import { IpfsService } from "../service/ipfs.service";
 
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-dashview',
-  templateUrl: './dashview.component.html',
-  styleUrls: ['./dashview.component.css']
+  selector: "app-dashview",
+  templateUrl: "./dashview.component.html",
+  styleUrls: ["./dashview.component.css"],
 })
 export class DashviewComponent implements OnInit {
   public gettingdata: boolean = false;
@@ -29,18 +33,21 @@ export class DashviewComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private ipfsService: IpfsService
   ) {
-    this.minDate = new Date('2023-01-01');
+    this.minDate = new Date("2023-01-01");
     this.maxDate = new Date();
 
     this.dateForm = this.fb.group({
       fromDate: [null, Validators.required],
-      toDate: [null, Validators.required]
+      toDate: [null, Validators.required],
     });
   }
 
   async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const initialData = await this.ipfsService.getFilesByDateRange(this.minDate, this.maxDate);
+      const initialData = await this.ipfsService.getFilesByDateRange(
+        this.minDate,
+        this.maxDate
+      );
       this.updateCharts(initialData);
     }
   }
@@ -51,10 +58,13 @@ export class DashviewComponent implements OnInit {
       const formattedFromDate = new Date(this.formatDate(fromDate));
       const formattedToDate = new Date(this.formatDate(toDate));
 
-      console.log('Selected Date Range:', formattedFromDate, formattedToDate);
+      console.log("Selected Date Range:", formattedFromDate, formattedToDate);
 
       this.gettingdata = true;
-      const data = await this.ipfsService.getFilesByDateRange(formattedFromDate, formattedToDate);
+      const data = await this.ipfsService.getFilesByDateRange(
+        formattedFromDate,
+        formattedToDate
+      );
       this.updateCharts(data);
       this.gettingdata = false;
     }
@@ -63,8 +73,8 @@ export class DashviewComponent implements OnInit {
   formatDate(date: string): string {
     const jsDate = new Date(date);
     const year = jsDate.getFullYear();
-    const month = String(jsDate.getMonth() + 1).padStart(2, '0');
-    const day = String(jsDate.getDate()).padStart(2, '0');
+    const month = String(jsDate.getMonth() + 1).padStart(2, "0");
+    const day = String(jsDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
 
@@ -77,20 +87,27 @@ export class DashviewComponent implements OnInit {
 
   calculateInfoCardData(data: any[]) {
     // Calculate the overall system carbon footprint
-    const totalCarbonFootprint = data.reduce((sum, day) => sum + (day.total * 0.5), 0);
-    this.overallCarbonFootprint = parseFloat((totalCarbonFootprint / 1000).toFixed(2)); // Convert to metric tons and format to 2 decimal places
+    const totalCarbonFootprint = data.reduce(
+      (sum, day) => sum + day.total * 0.5,
+      0
+    );
+    this.overallCarbonFootprint = parseFloat(
+      (totalCarbonFootprint / 1000).toFixed(2)
+    ); // Convert to metric tons and format to 2 decimal places
 
     // Example calculation for carbon emission reduction
     const initialCarbonFootprint = 100; // Assume an initial value for demonstration purposes
     const currentCarbonFootprint = this.overallCarbonFootprint;
-    const reductionPercentage = ((initialCarbonFootprint - currentCarbonFootprint) / initialCarbonFootprint) * 100;
+    const reductionPercentage =
+      ((initialCarbonFootprint - currentCarbonFootprint) /
+        initialCarbonFootprint) *
+      100;
     this.carbonEmissionReduction = parseFloat(reductionPercentage.toFixed(2)); // Format to 2 decimal places
 
     // Example calculation for overall system efficiency
     const maxPossibleEfficiency = 100; // Assume max possible efficiency
     this.overallSystemEfficiency = parseFloat((70).toFixed(2)); // Hardcoded for demonstration; format to 2 decimal places if needed
   }
-
 
   updateEnergyConsumptionChart(data: any[]) {
     const energyConsumptionData = this.calculateDailyEnergyConsumption(data);
@@ -100,56 +117,60 @@ export class DashviewComponent implements OnInit {
       this.energyChart.destroy();
     }
 
-    const ctx = (document.getElementById('energyChart') as HTMLCanvasElement).getContext('2d');
+    const ctx = (
+      document.getElementById("energyChart") as HTMLCanvasElement
+    ).getContext("2d");
     // @ts-ignore
     this.energyChart = new Chart(ctx, {
-      type: 'bar',
+      type: "bar",
       data: {
         labels: labels,
         datasets: [
           {
-            label: 'Energy Consumption (kWh)',
+            label: "Energy Consumption (kWh)",
             data: energyConsumptionData,
-            backgroundColor: '#A8DADC',
-            borderColor: 'black',
+            backgroundColor: "#A8DADC",
+            borderColor: "black",
             borderWidth: 1,
-          }
-        ]
+          },
+        ],
       },
       options: {
         scales: {
           y: {
             beginAtZero: true,
-            type: 'linear',
-            position: 'left',
+            type: "linear",
+            position: "left",
             title: {
               display: true,
-              text: 'Energy Consumption (kWh)'
+              text: "Energy Consumption (kWh)",
             },
             grid: {
-              borderColor: 'rgba(0, 0, 0, 0.1)',
-              borderDash: [5, 5]
-            },ticks: {
-              color: 'black',
-              callback: function(value) {
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              borderDash: [5, 5],
+            },
+            ticks: {
+              color: "black",
+              callback: function (value) {
                 return value;
-              }
-            }, border: {
-              display: false
-            }
+              },
+            },
+            border: {
+              display: false,
+            },
           },
           x: {
             title: {
               display: true,
-              text: 'Date'
+              text: "Date",
             },
             grid: {
               drawOnChartArea: false,
-              drawBorder: false
-            }
-          }
-        }
-      }
+              drawBorder: false,
+            },
+          },
+        },
+      },
     });
   }
 
@@ -161,66 +182,71 @@ export class DashviewComponent implements OnInit {
       this.carbonChart.destroy();
     }
 
-    const ctx = (document.getElementById('carbonChart') as HTMLCanvasElement).getContext('2d');
+    const ctx = (
+      document.getElementById("carbonChart") as HTMLCanvasElement
+    ).getContext("2d");
     // @ts-ignore
     this.carbonChart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: {
         labels: labels,
         datasets: [
           {
-            label: 'Carbon Footprint (kgCO₂)',
+            label: "Carbon Footprint (kgCO₂)",
             data: carbonFootprintData,
-            backgroundColor: 'rgba(237, 253, 248, 1)',
-            borderColor: 'black',
+            backgroundColor: "rgba(237, 253, 248, 1)",
+            borderColor: "black",
             borderWidth: 2,
             fill: true,
             tension: 0.4,
             pointRadius: 0, // Remove the points on the line
-            pointHoverRadius: 0 // Remove the hover effect on points
-          }
-        ]
+            pointHoverRadius: 0, // Remove the hover effect on points
+          },
+        ],
       },
       options: {
         scales: {
           y: {
             beginAtZero: true,
-            type: 'linear',
-            position: 'left',
+            type: "linear",
+            position: "left",
             title: {
               display: true,
-              text: 'Carbon Footprint (kgCO₂)'
+              text: "Carbon Footprint (kgCO₂)",
             },
           },
           x: {
             title: {
               display: true,
-              text: 'Date'
+              text: "Date",
             },
-          }
-        }
-      }
+          },
+        },
+      },
     });
   }
 
   updateApplianceEnergyConsumptionChart(data: any[]) {
     const applianceData = this.calculateMonthlyApplianceEnergyConsumption(data);
-    const totalConsumption = applianceData.reduce((sum, d) => sum + d.totalConsumption, 0);
+    const totalConsumption = applianceData.reduce(
+      (sum, d) => sum + d.totalConsumption,
+      0
+    );
 
     const labels = [];
     const consumptionValues = [];
     const backgroundColors = [
-      '#D79E69', // Warm brown
-      '#EFFFFF', // Light gray
-      '#F3E5D7', // Soft beige
-      '#4270f5', // Teal
-      '#EDEDED', // Light gray
-      '#15A798', // Turquoise
-      '#A8DADC', // Extra colors if needed
-      '#457B9D',
-      '#5b5b5b',
-      '#F4A261',
-      '#E76F51'
+      "#D79E69", // Warm brown
+      "#EFFFFF", // Light gray
+      "#F3E5D7", // Soft beige
+      "#4270f5", // Teal
+      "#EDEDED", // Light gray
+      "#15A798", // Turquoise
+      "#A8DADC", // Extra colors if needed
+      "#457B9D",
+      "#5b5b5b",
+      "#F4A261",
+      "#E76F51",
     ];
     const borderColors = backgroundColors.slice();
     let otherConsumption = 0;
@@ -230,14 +256,22 @@ export class DashviewComponent implements OnInit {
       if (percentage < 0.8) {
         otherConsumption += d.totalConsumption;
       } else {
-        labels.push(`${d.appliance}: ${d.totalConsumption.toFixed(1)} kWh (${percentage.toFixed(1)}%)`);
+        labels.push(
+          `${d.appliance}: ${d.totalConsumption.toFixed(
+            1
+          )} kWh (${percentage.toFixed(1)}%)`
+        );
         consumptionValues.push(d.totalConsumption.toFixed(1));
       }
     });
 
     if (otherConsumption > 0) {
       const otherPercentage = (otherConsumption / totalConsumption) * 100;
-      labels.push(`Other: ${otherConsumption.toFixed(1)} kWh (${otherPercentage.toFixed(1)}%)`);
+      labels.push(
+        `Other: ${otherConsumption.toFixed(1)} kWh (${otherPercentage.toFixed(
+          1
+        )}%)`
+      );
       consumptionValues.push(otherConsumption.toFixed(1));
     }
 
@@ -246,10 +280,12 @@ export class DashviewComponent implements OnInit {
     }
     console.log(labels);
 
-    const ctx = (document.getElementById('applianceChart') as HTMLCanvasElement).getContext('2d');
+    const ctx = (
+      document.getElementById("applianceChart") as HTMLCanvasElement
+    ).getContext("2d");
     // @ts-ignore
     this.applianceChart = new Chart(ctx, {
-      type: 'pie',
+      type: "pie",
       data: {
         labels: labels,
         datasets: [
@@ -257,39 +293,38 @@ export class DashviewComponent implements OnInit {
             data: consumptionValues,
             backgroundColor: backgroundColors,
             borderColor: borderColors,
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         plugins: {
           legend: {
-            display: false // Hides the legend
+            display: false, // Hides the legend
           },
           title: {
             display: true,
-            text: 'Appliance Energy Consumption',
-            color: 'black',
+            text: "Appliance Energy Consumption",
+            color: "black",
             font: {
-              size: 14 // Adjust the font size to make the title smaller
-            }
+              size: 14, // Adjust the font size to make the title smaller
+            },
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 return "";
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
   }
 
-
   calculateDailyEnergyConsumption(data: any[]): number[] {
     const dailyTotals: { [key: string]: number } = {};
-    data.forEach(record => {
+    data.forEach((record) => {
       const date = new Date(record.date).toLocaleDateString();
       if (!dailyTotals[date]) dailyTotals[date] = 0;
       dailyTotals[date] += record.total;
@@ -298,26 +333,33 @@ export class DashviewComponent implements OnInit {
   }
 
   calculateDailyCarbonFootprint(data: any[]): number[] {
-    return data.map(day => day.total * 0.5);
+    return data.map((day) => day.total * 0.5);
   }
 
-  calculateMonthlyApplianceEnergyConsumption(data: any[]): { appliance: string, totalConsumption: number }[] {
+  calculateMonthlyApplianceEnergyConsumption(
+    data: any[]
+  ): { appliance: string; totalConsumption: number }[] {
     const applianceTotals: { [key: string]: number } = {};
-    data.forEach(day => {
-      Object.keys(day.consumptionPerHour).forEach(appliance => {
+    data.forEach((day) => {
+      Object.keys(day.consumptionPerHour).forEach((appliance) => {
         if (!applianceTotals[appliance]) applianceTotals[appliance] = 0;
-        applianceTotals[appliance] += day.consumptionPerHour[appliance].reduce((a: any, b: any) => a + b, 0);
+        applianceTotals[appliance] += day.consumptionPerHour[appliance].reduce(
+          (a: any, b: any) => a + b,
+          0
+        );
       });
     });
 
-    return Object.keys(applianceTotals).map(appliance => ({
+    return Object.keys(applianceTotals).map((appliance) => ({
       appliance,
-      totalConsumption: applianceTotals[appliance]
+      totalConsumption: applianceTotals[appliance],
     }));
   }
 
   generateLabelsForRange(data: any[]): string[] {
-    const uniqueDates = Array.from(new Set(data.map(day => new Date(day.date).toLocaleDateString())));
+    const uniqueDates = Array.from(
+      new Set(data.map((day) => new Date(day.date).toLocaleDateString()))
+    );
     return uniqueDates;
   }
 }
